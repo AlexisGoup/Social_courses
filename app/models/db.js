@@ -7,9 +7,11 @@ const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 });
 
 const db = {};
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
 
+db.Sequelize    = Sequelize;
+db.sequelize    = sequelize;
+
+// Importer les modèles dans l'objet db
 db.lesson       = require("./lessons.model") (db.sequelize, db.Sequelize);
 db.user         = require("./users.model") (db.sequelize, db.Sequelize);
 db.student      = require("./students.model") (db.sequelize, db.Sequelize);
@@ -30,12 +32,12 @@ db.student.hasMany(db.comment);
 db.comment.belongsTo(db.student);
 
 // Student est en relation Many-To-Many avec Student
-db.student.belongsToMany(student, {trough: 'friendship'});
-db.student.belongsToMany(student, {trough: 'friendship'});
+db.student.belongsToMany(db.student, { as : 'Friend' , through: 'student_friends' });
+db.student.belongsToMany(db.student, { as : 'Friend_two' , through: 'student_friends' });
 
 // Student est en relation Many-To-Many avec Lesson 
-db.student.belongsToMany(lesson, {trough: 'participation'});
-db.lesson.belongsToMany(student, {trough: 'participation'});
+db.student.belongsToMany(db.lesson, {through: 'lesson_student'});
+db.lesson.belongsToMany(db.student, {through: 'lesson_student'});
 
 // Teacher est en relation One-to-Many avec Comment
 db.teacher.hasMany(db.comment);
@@ -46,8 +48,8 @@ db.teacher.hasMany(db.publication);
 db.publication.belongsTo(db.teacher);
 
 // Teacher est en relation Many-to-Many avec Lesson
-db.teacher.belongsToMany(lesson, {trough: 'teacherLesson'});
-db.lesson.belongsToMany(teacher, {trough: 'teacherLesson'});
+db.teacher.belongsToMany(db.lesson, {through: 'teacher_lesson'});
+db.lesson.belongsToMany(db.teacher, {through: 'teacher_lesson'});
 
 // Publication est en relation One-to-Many avec Comment
 db.publication.hasMany(db.comment);
