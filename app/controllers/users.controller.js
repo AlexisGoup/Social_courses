@@ -113,3 +113,7 @@ exports.deleteUser = async (req, res) => {
         res.json({ error: err });
     }
 }
+
+exports.registerStudentOrTeacher = async (req, res) => {
+    return;
+}
