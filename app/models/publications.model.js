@@ -5,9 +5,6 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        creation_date: {
-            type:Sequelize.DATE       
-        },
         title: {
             type: Sequelize.STRING
         },

@@ -5,9 +5,6 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        creation_date: {
-            type: Sequelize.DATE
-        },
         body_text: {
             type: Sequelize.TEXT
         }
